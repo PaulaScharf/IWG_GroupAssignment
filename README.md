@@ -1,1 +1,1 @@
-# IWG_GroupAssignment
+# IWG - GroupAssignment
