@@ -38,9 +38,6 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			if(popup.classList.contains("show")) {
 				popup.classList.toggle("show");
 			}
-			if(!infopane.classList.contains("closed")) {
-				infopane.classList.toggle("closed");
-			}
 		});
 	}
 });

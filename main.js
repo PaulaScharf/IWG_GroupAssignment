@@ -41,3 +41,10 @@ window.onload = () => {
 	});
 });
 };
+
+function closeInfopane() {
+	let infopane = document.getElementById("infopane");
+	if(!infopane.classList.contains("closed")) {
+		infopane.classList.toggle("closed");
+	}
+}
