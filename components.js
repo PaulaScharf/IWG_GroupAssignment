@@ -27,6 +27,7 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 				popup.classList.toggle("show");
 			}
 			if(infopane.classList.contains("closed")) {
+				fillInfoPane(el.id);
 				infopane.classList.toggle("closed");
 			}
 		});
