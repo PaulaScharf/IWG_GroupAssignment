@@ -47,7 +47,7 @@ window.onload = () => {
 };
 
 /**
- *
+ * closes the Infopane
  */
 function closeInfopane() {
 	let infopane = document.getElementById("infopane");
@@ -56,6 +56,10 @@ function closeInfopane() {
 	}
 }
 
+/**
+ * fills the infopane with Information about the tree with the given id
+ * @param id - id of the tree
+ */
 function fillInfoPane(id) {
 	let infocontainer = document.getElementById("infocontainer");
 	let currentTree = treeData.filter(tree => {
