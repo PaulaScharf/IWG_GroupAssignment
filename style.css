@@ -91,7 +91,7 @@ body {
 }
 
 .infopane.closed {
-  height: 2em;
+  height: 3em;
 }
 
 #infocontainer {
@@ -167,6 +167,11 @@ body {
 }
 
 /***************************************** css for the contents of the infobox ***************************************/
+.collapsibleContent {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
 
 #treeName {
   text-align: left;
@@ -197,4 +202,14 @@ body {
   font-size: 1.3em;
   padding-left: 2%;
   color: rgb(183, 222, 255);
+}
+
+.collapsible:after {
+  content: '▾';
+  color: white;
+  font-weight: bold;
+}
+
+.active:after {
+  content: "▴";
 }

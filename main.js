@@ -73,5 +73,14 @@ function fillInfoPane(id) {
 	if(description === "")
 		description = "no description available for this tree :(";
 	document.getElementById("treeDescription").innerText = description;
+}
 
+function openCollapsible(idContent, idLabel) {
+	document.getElementById(idLabel).classList.toggle("active");
+	let content = document.getElementById(idContent);
+	if (content.style.maxHeight){
+		content.style.maxHeight = null;
+	} else {
+		content.style.maxHeight = content.scrollHeight + "px";
+	}
 }
