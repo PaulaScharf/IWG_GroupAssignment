@@ -1,6 +1,7 @@
 body {
   margin: 0;
   overflow: hidden;
+  font-family: Helvetica;
 }
 
 /****************************************** css for the popup **********************************************/
@@ -90,7 +91,7 @@ body {
 }
 
 .infopane.closed {
-  height: 50px;
+  height: 2em;
 }
 
 #infocontainer {
@@ -163,4 +164,37 @@ body {
 
 .infopane.closed .button{
   display: none;
+}
+
+/***************************************** css for the contents of the infobox ***************************************/
+
+#treeName {
+  text-align: left;
+  color: #ffffff;
+  font-size: 2em;
+  display: block;
+  padding-left: 5%;
+  margin-left:5%;
+  margin-right:5%;
+  padding-right:5%;
+  padding-bottom:2px;
+  border-bottom:1px solid #636363;
+}
+
+#treeDescription {
+  display: block;
+  background: rgba(55, 93, 186, 0.46);
+  text-align: left;
+  font-size: 1em;
+  width: 80%;
+  padding-left: 2%;
+  margin-left: 8%;
+}
+
+#treeDescription_label {
+  display: block;
+  text-align: left;
+  font-size: 1.3em;
+  padding-left: 2%;
+  color: rgb(183, 222, 255);
 }

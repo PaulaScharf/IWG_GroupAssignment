@@ -69,5 +69,9 @@ function fillInfoPane(id) {
 	if(name === "")
 		name = "XXX";
 	document.getElementById("treeName").innerText = name;
+	let description = currentTree[0].properties.description;
+	if(description === "")
+		description = "no description available for this tree :(";
+	document.getElementById("treeDescription").innerText = description;
 
 }
