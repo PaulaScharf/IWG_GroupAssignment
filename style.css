@@ -75,7 +75,7 @@ body {
 
 .infopane {
   overflow-y: hidden;
-  height: 40%; /* approximate max height */
+  height: 45%; /* approximate max height */
   bottom: 0%;
   width:90%;
   margin-right: 5%;
@@ -188,7 +188,7 @@ body {
 
 #treeDescription {
   display: block;
-  background: rgba(55, 93, 186, 0.46);
+  background: rgba(55, 93, 186, 0.22);
   text-align: left;
   font-size: 1em;
   width: 80%;
@@ -201,7 +201,7 @@ body {
   text-align: left;
   font-size: 1.3em;
   padding-left: 2%;
-  color: rgb(183, 222, 255);
+  color: rgb(255, 255, 255);
 }
 
 .collapsible:after {
