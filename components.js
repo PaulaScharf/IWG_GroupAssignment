@@ -2,8 +2,9 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 	init: function () {
 		let el = this.el;
 		let popup = document.getElementById("myPopup");
-		let infopane = document.getElementById("infopane");
+		let infopane = document.querySelector('[id^="infopane"]');
 		let componentPosition = el.getAttribute("gps-entity-place");
+		let id = el.id.split(' ')[1];
 
 		/**
 		 * If the gaze enters the component call for the current position of the device and then calculate the distance to the
@@ -16,9 +17,13 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 				popup.innerText = "distance: " + distance + "m";
 				popup.classList.toggle("show");
 			}
+			fillInfoPane(id);
+			infopane.id = "infopane " + id;
 			if(infopane.classList.contains("closed")) {
-				fillInfoPane(el.id);
 				infopane.classList.toggle("closed");
+			}
+			if(el.id.split(' ')[0] === "tree") {
+				el = setGeometryTorus(el, id);
 			}
 		});
 
@@ -26,6 +31,10 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 		 * If the gaze leaves a component toggle the popup to be invisible again.
 		 */
 		el.addEventListener('mouseleave', function () {
+			let entity_id = infopane.id.split(' ')[1];
+			if(entity_id != id) {
+				el = setGeometryTree(el, entity_id);
+			}
 			if(popup.classList.contains("show")) {
 				popup.classList.toggle("show");
 			}

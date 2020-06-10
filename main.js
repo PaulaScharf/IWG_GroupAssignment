@@ -63,27 +63,59 @@ function renderTrees(trees) {
 	trees.forEach((tree) => {
 		const latitude = tree.geometry.coordinates[1];
 		const longitude = tree.geometry.coordinates[0];
-		const icon = document.createElement('a-image');
+
+		let icon = document.createElement('a-entity');
 		icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
-		// visualize the tree using the model from assignment 1
-		icon.setAttribute('gltf-model', 'assets/tree.gltf');
-		icon.setAttribute('look-at', '[gps-camera]');
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
-		icon.setAttribute('scale', '5, 5'); // if you want for debugging
-		icon.setAttribute('id', tree.properties.full_id);
+		icon = setGeometryTree(icon, tree.properties.full_id);
 		scene.appendChild(icon);
 	});
+}
+
+function setGeometryTree(icon, id) {
+	if(icon.hasAttribute('geometry')) {
+		icon.removeAttribute('geometry');
+		icon.removeAttribute('color');
+		icon.removeAttribute('rotation');
+		icon.removeAttribute('radius');
+		icon.removeAttribute('radius-tubular');
+	}
+	// visualize the tree using the model from assignment 1
+	icon.setAttribute('gltf-model', 'assets/tree.gltf');
+	icon.setAttribute('look-at', '[gps-camera]');
+	icon.setAttribute('scale', '5, 5'); // if you want for debugging
+	icon.setAttribute('id', "tree " + id);
+	return icon;
+}
+
+function setGeometryTorus(icon, id) {
+	if(icon.hasAttribute('gltf-model')) {
+		icon.removeAttribute('gltf-model');
+	}
+	icon.setAttribute('geometry', 'primitive: torus');
+	icon.setAttribute('look-at', '[gps-camera]');
+	icon.setAttribute('material', 'opacity: 1');
+	icon.setAttribute('color', '#45ac2b');
+	icon.setAttribute('rotation', '0 0 0');
+	icon.setAttribute('radius', '1');
+	icon.setAttribute('radius-tubular', '0.005');
+	icon.setAttribute('scale', '5 10 5');
+	icon.setAttribute('id', "torus " + id);
+	return icon;
 }
 
 /**
  * closes the Infopane
  */
 function closeInfopane() {
-	let infopane = document.getElementById("infopane");
+	let infopane = document.querySelector('[id^="infopane"]');
 	if(!infopane.classList.contains("closed")) {
 		infopane.classList.toggle("closed");
 	}
+	let entity_id = infopane.id.split(' ')[1];
+	let icon = document.querySelector('[id$="' + entity_id +'"]');
+	icon = setGeometryTree(icon, entity_id);
 }
 
 /**
