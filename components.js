@@ -40,10 +40,10 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			if(previous_id != id) {
 				if(typeof previous_id != "undefined" && previous_id != "") {
 					let previous_element = document.getElementById("torus " + previous_id);
-					previous_element = setGeometryTree(previous_element, previous_id);
+					setGeometryTree(previous_element, previous_id);
 				}
 				if(el.id.split(' ')[0] === "tree") {
-					el = setGeometryTorus(el, id);
+					setGeometryTorus(el, id);
 				}
 			}
 			fillInfoPane(id);
