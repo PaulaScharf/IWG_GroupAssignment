@@ -17,8 +17,7 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 				popup.innerText = "distance: " + distance + "m";
 				popup.classList.toggle("show");
 			}
-			fillInfoPane(id);
-			infopane.id = "infopane " + id;
+			setCurrentTree(id);
 			if(infopane.classList.contains("closed")) {
 				infopane.classList.toggle("closed");
 			}
@@ -31,14 +30,25 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 		 * If the gaze leaves a component toggle the popup to be invisible again.
 		 */
 		el.addEventListener('mouseleave', function () {
-			let entity_id = infopane.id.split(' ')[1];
-			if(entity_id != id) {
-				el = setGeometryTree(el, entity_id);
-			}
 			if(popup.classList.contains("show")) {
 				popup.classList.toggle("show");
 			}
 		});
+
+		function setCurrentTree(id) {
+			let previous_id = infopane.id.split(' ')[1];
+			if(previous_id != id) {
+				if(typeof previous_id != "undefined" && previous_id != "") {
+					let previous_element = document.getElementById("torus " + previous_id);
+					previous_element = setGeometryTree(previous_element, previous_id);
+				}
+				if(el.id.split(' ')[0] === "tree") {
+					el = setGeometryTorus(el, id);
+				}
+			}
+			fillInfoPane(id);
+			infopane.id = "infopane " + id;
+		}
 	}
 });
 
