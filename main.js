@@ -68,24 +68,9 @@ function renderTrees(trees) {
 		icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
-		setGeometryTree(icon, tree.properties.full_id);
+		setGeometryGLTF(icon, tree.properties.full_id, 'assets/exclamationmark/model.gltf');
 		scene.appendChild(icon);
 	});
-}
-
-function setGeometryTree(icon, id) {
-	if(icon.hasAttribute('geometry')) {
-		icon.removeAttribute('geometry');
-		icon.removeAttribute('color');
-		icon.removeAttribute('rotation');
-		icon.removeAttribute('radius');
-		icon.removeAttribute('radius-tubular');
-	}
-	// visualize the tree using the model from assignment 1
-	icon.setAttribute('gltf-model', 'assets/tree.gltf');
-	icon.setAttribute('look-at', '[gps-camera]');
-	icon.setAttribute('scale', '5, 5'); // if you want for debugging
-	icon.setAttribute('id', "tree " + id);
 }
 
 function setGeometryTorus(icon, id) {
@@ -101,6 +86,14 @@ function setGeometryTorus(icon, id) {
 	icon.setAttribute('radius-inner', '49');
 	icon.setAttribute('scale', '5 10 5');
 	icon.setAttribute('id', "torus " + id);
+}
+
+
+function setGeometryGLTF(icon, id, path) {
+	icon.setAttribute('gltf-model', path);
+	icon.setAttribute('look-at', '[gps-camera]');
+	icon.setAttribute('scale', '100, 100'); // if you want for debugging
+	icon.setAttribute('id', "tree " + id);
 }
 
 /**

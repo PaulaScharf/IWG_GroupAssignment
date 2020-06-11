@@ -1,0 +1,268 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 608,
+      "max": [
+        20.649999618530273,
+        65.199996948242188,
+        4
+      ],
+      "min": [
+        -20.583000183105469,
+        -0,
+        -4
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 7296,
+      "componentType": 5126,
+      "count": 608,
+      "max": [
+        1,
+        1,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -1
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 608,
+      "max": [
+        1,
+        0.99371755123138428,
+        1,
+        1
+      ],
+      "min": [
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 608,
+      "max": [
+        0.98180001974105835,
+        0.99099999666213989
+      ],
+      "min": [
+        0.021700000390410423,
+        0.014499999582767487
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 4864,
+      "componentType": 5126,
+      "count": 608,
+      "max": [
+        0.98180001974105835,
+        0.99099999666213989
+      ],
+      "min": [
+        0.021700000390410423,
+        0.014499999582767487
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 1512,
+      "max": [
+        607
+      ],
+      "min": [
+        0
+      ],
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "yaocheng (https://sketchfab.com/yaocheng)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/questionmark-85cb01ef874a4148a6d27e760f3446ff",
+      "title": "Questionmark"
+    },
+    "generator": "Sketchfab-4.92.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 6048,
+      "byteOffset": 0,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 9728,
+      "byteOffset": 6048,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 14592,
+      "byteOffset": 15776,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 9728,
+      "byteOffset": 30368,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 40096,
+      "uri": "scene.bin"
+    }
+  ],
+  "materials": [
+     {
+                 "doubleSided" : true,
+                 "emissiveFactor" : [
+                     0,
+                     0,
+                     0
+                 ],
+                 "name" : "Green",
+                 "pbrMetallicRoughness" : {
+                     "baseColorFactor" : [
+                         0.0016767599154263735,
+                         0.8000000715255737,
+                         0,
+                         1
+                     ],
+                     "metallicFactor" : 0,
+                     "roughnessFactor" : 0.5
+                 }
+             }
+  ],
+  "meshes": [
+    {
+      "name": "questionmark:questionmark_msh_questionmark:questionmarkmat1_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4
+          },
+          "indices": 5,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "name": "RootNode (gltf orientation matrix)",
+      "rotation": [
+        -0.70710678118654746,
+        -0,
+        -0,
+        0.70710678118654757
+      ]
+    },
+    {
+      "children": [
+        2
+      ],
+      "name": "RootNode (model correction matrix)"
+    },
+    {
+      "children": [
+        3
+      ],
+      "matrix": [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        -1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "name": "307f3b468e5a48639b7beb12ec913549.fbx"
+    },
+    {
+      "children": [
+        4
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        5
+      ],
+      "name": "questionmark:questionmark_msh"
+    },
+    {
+      "mesh": 0,
+      "name": "questionmark:questionmark_msh_questionmark:questionmarkmat1_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "OSG_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    }
+  ]
+}

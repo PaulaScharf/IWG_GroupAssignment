@@ -21,9 +21,6 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			if(infopane.classList.contains("closed")) {
 				infopane.classList.toggle("closed");
 			}
-			if(el.id.split(' ')[0] === "tree") {
-				el = setGeometryTorus(el, id);
-			}
 		});
 
 		/**
@@ -39,11 +36,11 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			let previous_id = infopane.id.split(' ')[1];
 			if(previous_id != id) {
 				if(typeof previous_id != "undefined" && previous_id != "") {
-					let previous_element = document.getElementById("torus " + previous_id);
-					setGeometryTree(previous_element, previous_id);
+					let previous_element = document.getElementById("tree " + previous_id);
+					setGeometryGLTF(previous_element, previous_id, 'assets/exclamationmark/model.gltf');
 				}
 				if(el.id.split(' ')[0] === "tree") {
-					setGeometryTorus(el, id);
+					setGeometryGLTF(el, id, 'assets/tree.gltf');
 				}
 			}
 			fillInfoPane(id);
