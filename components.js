@@ -2,8 +2,9 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 	init: function () {
 		let el = this.el;
 		let popup = document.getElementById("myPopup");
-		let infopane = document.getElementById("infopane");
+		let infopane = document.querySelector('[id^="infopane"]');
 		let componentPosition = el.getAttribute("gps-entity-place");
+		let id = el.id.split(' ')[1];
 
 		/**
 		 * If the gaze enters the component call for the current position of the device and then calculate the distance to the
@@ -16,9 +17,12 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 				popup.innerText = "distance: " + distance + "m";
 				popup.classList.toggle("show");
 			}
+			setCurrentTree(id);
 			if(infopane.classList.contains("closed")) {
-				fillInfoPane(el.id);
 				infopane.classList.toggle("closed");
+			}
+			if(el.id.split(' ')[0] === "tree") {
+				el = setGeometryTorus(el, id);
 			}
 		});
 
@@ -30,6 +34,21 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 				popup.classList.toggle("show");
 			}
 		});
+
+		function setCurrentTree(id) {
+			let previous_id = infopane.id.split(' ')[1];
+			if(previous_id != id) {
+				if(typeof previous_id != "undefined" && previous_id != "") {
+					let previous_element = document.getElementById("torus " + previous_id);
+					setGeometryTree(previous_element, previous_id);
+				}
+				if(el.id.split(' ')[0] === "tree") {
+					setGeometryTorus(el, id);
+				}
+			}
+			fillInfoPane(id);
+			infopane.id = "infopane " + id;
+		}
 	}
 });
 
