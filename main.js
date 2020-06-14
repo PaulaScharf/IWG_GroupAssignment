@@ -34,8 +34,8 @@ window.onload = () => {
 };
 
 /**
- *
- * @param trees
+ * Calculates all the trees in a given range from a given array.
+ * @param trees - array of trees
  * @param range - in km
  */
 function filterTreesInRange(trees, range) {
@@ -73,6 +73,11 @@ function renderTrees(trees) {
 	});
 }
 
+/**
+ * change the 3D-representation of a given icon to a sphere.
+ * @param icon
+ * @param id
+ */
 function setGeometrySphere(icon, id) {
 	if(icon.hasAttribute('gltf-model')) {
 		icon.removeAttribute('gltf-model');
@@ -87,7 +92,13 @@ function setGeometrySphere(icon, id) {
 	icon.setAttribute('id', "tree " + id);
 }
 
-
+/**
+ * change the 3D-representation of a given icon to a gltf-model.
+ * @param icon - the tree icon
+ * @param id - the id of the tree
+ * @param path - the path to the gltf model
+ * @param scale - scale of the gltf model
+ */
 function setGeometryGLTF(icon, id, path, scale) {
 	icon.setAttribute('gltf-model', path);
 	icon.setAttribute('scale', '' + scale + ', ' + scale); // if you want for debugging
@@ -108,12 +119,16 @@ function closeInfopane() {
 	}
 }
 
+/**
+ * opens the infopane
+ */
 function openInfopane() {
 	let infopane = document.querySelector('[id^="infopane"]');
 	if(infopane.classList.contains("closed")) {
 		infopane.classList.toggle("closed");
 		let entity_id = infopane.id.split(' ')[1];
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
+		// TODO: different colors and models according to the sickness of the tree
 		// for visualizing as an exclamation mark
 		//setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800);
 
@@ -145,7 +160,7 @@ function fillInfoPane(id) {
 }
 
 /**
- *
+ * open or close the content of a collapsible element.
  * @param idContent
  * @param idLabel
  */
