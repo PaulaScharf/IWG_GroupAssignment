@@ -78,7 +78,7 @@ function setGeometrySphere(icon, id) {
 		icon.removeAttribute('gltf-model');
 	}
 	icon.setAttribute('geometry', 'primitive: sphere');
-	icon.setAttribute('color', '#99594d');
+	icon.setAttribute('color', '#2e9916');
 	icon.setAttribute('look-at', '[gps-camera]');
 	icon.setAttribute('material', 'opacity: 1');
 	icon.setAttribute('rotation', '0 0 0');
@@ -102,10 +102,27 @@ function closeInfopane() {
 	let infopane = document.querySelector('[id^="infopane"]');
 	if(!infopane.classList.contains("closed")) {
 		infopane.classList.toggle("closed");
+		let entity_id = infopane.id.split(' ')[1];
+		let icon = document.querySelector('[id$="' + entity_id +'"]');
+		setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
 	}
-	let entity_id = infopane.id.split(' ')[1];
-	let icon = document.querySelector('[id$="' + entity_id +'"]');
-	setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
+}
+
+function openInfopane() {
+	let infopane = document.querySelector('[id^="infopane"]');
+	if(infopane.classList.contains("closed")) {
+		infopane.classList.toggle("closed");
+		let entity_id = infopane.id.split(' ')[1];
+		let icon = document.querySelector('[id$="' + entity_id +'"]');
+		// for visualizing as an exclamation mark
+		//setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800);
+
+		// for visualizing as a question mark
+		setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5);
+
+		// for visualizing as a dot
+		//setGeometrySphere(icon, entity_id)
+	}
 }
 
 /**

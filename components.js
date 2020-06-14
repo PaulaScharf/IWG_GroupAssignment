@@ -52,6 +52,7 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			}
 			fillInfoPane(id);
 			infopane.id = "infopane " + id;
+			infopane.classList.toggle("filled")
 		}
 	}
 });
