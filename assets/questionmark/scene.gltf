@@ -153,8 +153,8 @@
                  "name" : "Green",
                  "pbrMetallicRoughness" : {
                      "baseColorFactor" : [
-                         0.0016767599154263735,
-                         0.8000000715255737,
+                         1,
+                         0.75,
                          0,
                          1
                      ],

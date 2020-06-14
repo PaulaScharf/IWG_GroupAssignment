@@ -37,10 +37,17 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			if(previous_id != id) {
 				if(typeof previous_id != "undefined" && previous_id != "") {
 					let previous_element = document.getElementById("tree " + previous_id);
-					setGeometryGLTF(previous_element, previous_id, 'assets/exclamationmark/model.gltf');
+					setGeometryGLTF(previous_element, previous_id, 'assets/tree.gltf', 5);
 				}
 				if(el.id.split(' ')[0] === "tree") {
-					setGeometryGLTF(el, id, 'assets/tree.gltf');
+					// for visualizing as an exclamation mark
+					//setGeometryGLTF(el, id, 'assets/exclamationmark/model.gltf', 800);
+
+					// for visualizing as a question mark
+					setGeometryGLTF(el, id, 'assets/questionmark/scene.gltf', 0.5);
+
+					// for visualizing as a dot
+					//setGeometrySphere(el, id)
 				}
 			}
 			fillInfoPane(id);
