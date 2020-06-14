@@ -34,10 +34,13 @@
             <h id="treeName">Information</h>
             <div id="treeDescription_label" class="collapsible" onclick="openCollapsible('treeDescription', 'treeDescription_label')">Description </div>
             <div id="treeDescription" class="collapsibleContent">description</div>
-            <button id="mdiv" onclick="closeInfopane()">
-                <div class="mdiv">
+            <button class="mdiv" id="close" onclick="closeInfopane()">
+                <div class="mdiv-inner">
                     <div class="md"></div>
                 </div>
+            </button>
+            <button class="mdiv" id="open" onclick="openInfopane()">
+                ▲
             </button>
             <button class="button bottomRight" style="background-color: #4CAF50;">Edit</button>
         </div>

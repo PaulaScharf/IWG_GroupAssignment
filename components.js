@@ -32,14 +32,22 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			}
 		});
 
+		/**
+		 * Takes care of changing the model of the currently and previously looked at tree and updates the infopane to the current tree
+		 * @param id - id of the currently looked at tree
+		 */
 		function setCurrentTree(id) {
+			// id of the previously looked at tree
 			let previous_id = infopane.id.split(' ')[1];
+			// if the same tree is looked at as before, nothing has to change
 			if(previous_id != id) {
+				// if a tree has been looked at, before this tree, its model has to change back to the original tree model
 				if(typeof previous_id != "undefined" && previous_id != "") {
 					let previous_element = document.getElementById("tree " + previous_id);
 					setGeometryGLTF(previous_element, previous_id, 'assets/tree.gltf', 5);
 				}
 				if(el.id.split(' ')[0] === "tree") {
+					// TODO: different colors and models according to the sickness of the tree
 					// for visualizing as an exclamation mark
 					//setGeometryGLTF(el, id, 'assets/exclamationmark/model.gltf', 800);
 
@@ -49,9 +57,12 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 					// for visualizing as a dot
 					//setGeometrySphere(el, id)
 				}
+				fillInfoPane(id);
+				// indicate which tree the infopane displays information about
+				infopane.id = "infopane " + id;
+				// indicate that the infopane contains information
+				infopane.classList.toggle("filled")
 			}
-			fillInfoPane(id);
-			infopane.id = "infopane " + id;
 		}
 	}
 });

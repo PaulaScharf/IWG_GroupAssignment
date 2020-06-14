@@ -101,7 +101,7 @@ body {
 }
 
 /****************************************** css for the close button **********************************************/
-#mdiv {
+.mdiv {
   width: 30px;
   height: 30px;
   right: 0;
@@ -112,12 +112,12 @@ body {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 18px;
   margin: 4px 4px;
   cursor: pointer;
 }
 
-.mdiv {
+.mdiv-inner {
   height: 25px;
   width: 2px;
   margin-left: 9px;
@@ -134,12 +134,21 @@ body {
   Z-index: 2;
 }
 
-.infopane.closed #mdiv{
+.infopane.closed .mdiv#close{
   display: none;
 }
 
-.infopane #mdiv{
+.infopane .mdiv#close{
   display: block;
+}
+
+/* the button to open the infopane is only displayed, if there is content in the infobox (indicated by "filled")*/
+.infopane.closed.filled .mdiv#open{
+  display: block;
+}
+
+.infopane .mdiv#open{
+  display: none;
 }
 
 /****************************************** css for buttons in general **********************************************/
@@ -202,14 +211,13 @@ body {
   font-size: 1.3em;
   padding-left: 2%;
   color: rgb(255, 255, 255);
+  font-weight: bold;
 }
 
 .collapsible:after {
   content: '▾';
-  color: white;
-  font-weight: bold;
 }
 
 .active:after {
-  content: "▴";
+  content: '▴';
 }

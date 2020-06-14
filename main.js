@@ -34,8 +34,8 @@ window.onload = () => {
 };
 
 /**
- *
- * @param trees
+ * Calculates all the trees in a given range from a given array.
+ * @param trees - array of trees
  * @param range - in km
  */
 function filterTreesInRange(trees, range) {
@@ -73,12 +73,17 @@ function renderTrees(trees) {
 	});
 }
 
+/**
+ * change the 3D-representation of a given icon to a sphere.
+ * @param icon
+ * @param id
+ */
 function setGeometrySphere(icon, id) {
 	if(icon.hasAttribute('gltf-model')) {
 		icon.removeAttribute('gltf-model');
 	}
 	icon.setAttribute('geometry', 'primitive: sphere');
-	icon.setAttribute('color', '#99594d');
+	icon.setAttribute('color', '#2e9916');
 	icon.setAttribute('look-at', '[gps-camera]');
 	icon.setAttribute('material', 'opacity: 1');
 	icon.setAttribute('rotation', '0 0 0');
@@ -87,7 +92,13 @@ function setGeometrySphere(icon, id) {
 	icon.setAttribute('id', "tree " + id);
 }
 
-
+/**
+ * change the 3D-representation of a given icon to a gltf-model.
+ * @param icon - the tree icon
+ * @param id - the id of the tree
+ * @param path - the path to the gltf model
+ * @param scale - scale of the gltf model
+ */
 function setGeometryGLTF(icon, id, path, scale) {
 	icon.setAttribute('gltf-model', path);
 	icon.setAttribute('scale', '' + scale + ', ' + scale); // if you want for debugging
@@ -102,10 +113,31 @@ function closeInfopane() {
 	let infopane = document.querySelector('[id^="infopane"]');
 	if(!infopane.classList.contains("closed")) {
 		infopane.classList.toggle("closed");
+		let entity_id = infopane.id.split(' ')[1];
+		let icon = document.querySelector('[id$="' + entity_id +'"]');
+		setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
 	}
-	let entity_id = infopane.id.split(' ')[1];
-	let icon = document.querySelector('[id$="' + entity_id +'"]');
-	setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
+}
+
+/**
+ * opens the infopane
+ */
+function openInfopane() {
+	let infopane = document.querySelector('[id^="infopane"]');
+	if(infopane.classList.contains("closed")) {
+		infopane.classList.toggle("closed");
+		let entity_id = infopane.id.split(' ')[1];
+		let icon = document.querySelector('[id$="' + entity_id +'"]');
+		// TODO: different colors and models according to the sickness of the tree
+		// for visualizing as an exclamation mark
+		//setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800);
+
+		// for visualizing as a question mark
+		setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5);
+
+		// for visualizing as a dot
+		//setGeometrySphere(icon, entity_id)
+	}
 }
 
 /**
@@ -128,7 +160,7 @@ function fillInfoPane(id) {
 }
 
 /**
- *
+ * open or close the content of a collapsible element.
  * @param idContent
  * @param idLabel
  */
