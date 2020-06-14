@@ -68,39 +68,31 @@ function renderTrees(trees) {
 		icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
-		setGeometryTree(icon, tree.properties.full_id);
+		setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
 		scene.appendChild(icon);
 	});
 }
 
-function setGeometryTree(icon, id) {
-	if(icon.hasAttribute('geometry')) {
-		icon.removeAttribute('geometry');
-		icon.removeAttribute('color');
-		icon.removeAttribute('rotation');
-		icon.removeAttribute('radius');
-		icon.removeAttribute('radius-tubular');
-	}
-	// visualize the tree using the model from assignment 1
-	icon.setAttribute('gltf-model', 'assets/tree.gltf');
-	icon.setAttribute('look-at', '[gps-camera]');
-	icon.setAttribute('scale', '5, 5'); // if you want for debugging
-	icon.setAttribute('id', "tree " + id);
-}
-
-function setGeometryTorus(icon, id) {
+function setGeometrySphere(icon, id) {
 	if(icon.hasAttribute('gltf-model')) {
 		icon.removeAttribute('gltf-model');
 	}
-	icon.setAttribute('geometry', 'primitive: ring');
+	icon.setAttribute('geometry', 'primitive: sphere');
+	icon.setAttribute('color', '#99594d');
 	icon.setAttribute('look-at', '[gps-camera]');
 	icon.setAttribute('material', 'opacity: 1');
-	icon.setAttribute('color', '#45ac2b');
 	icon.setAttribute('rotation', '0 0 0');
-	icon.setAttribute('radius', '50');
-	icon.setAttribute('radius-inner', '49');
-	icon.setAttribute('scale', '5 10 5');
-	icon.setAttribute('id', "torus " + id);
+	icon.setAttribute('radius', '10');
+	icon.setAttribute('scale', '5 5 5');
+	icon.setAttribute('id', "tree " + id);
+}
+
+
+function setGeometryGLTF(icon, id, path, scale) {
+	icon.setAttribute('gltf-model', path);
+	icon.setAttribute('scale', '' + scale + ', ' + scale); // if you want for debugging
+	icon.setAttribute('look-at', '[gps-camera]');
+	icon.setAttribute('id', "tree " + id);
 }
 
 /**
@@ -113,7 +105,7 @@ function closeInfopane() {
 	}
 	let entity_id = infopane.id.split(' ')[1];
 	let icon = document.querySelector('[id$="' + entity_id +'"]');
-	setGeometryTree(icon, entity_id);
+	setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
 }
 
 /**
