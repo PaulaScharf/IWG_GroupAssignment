@@ -114,7 +114,7 @@ function setGeometryGLTF(icon, id, path, scale) {
 
 function setColor(icon, tree){
 	if (tree.properties.affected){
-		icon.setAttribute ("color" , "red");
+		icon.setAttribute ("color" , "#ff0e0b");
 	}
 	else if (trees.properties.genus == "Quercus" || trees.properties.genus == "Cedrus" ||trees.properties.genus == "Abies" ||trees.properties.genus == "Pinus" ){
 		icon.setAttribute("color" , "orange")
