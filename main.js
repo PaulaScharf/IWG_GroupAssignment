@@ -68,8 +68,13 @@ function renderTrees(trees) {
 		icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
-		setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
-		setColor(icon, tree);
+		if (tree.properties.affected) {
+			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
+		} else if (trees.properties.genus == "Quercus" || trees.properties.genus == "Cedrus" ||trees.properties.genus == "Abies" ||trees.properties.genus == "Pinus" ) {
+			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
+		} else {
+			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
+		}
 		scene.appendChild(icon);
 	});
 }
@@ -106,21 +111,6 @@ function setGeometryGLTF(icon, id, path, scale) {
 	icon.setAttribute('look-at', '[gps-camera]');
 	icon.setAttribute('id', "tree " + id);
 }
-
-/**
- * Die Funktion sucht nach
- *
- */
-
-function setColor(icon, tree){
-	if (tree.properties.affected){
-		icon.setAttribute ("color" , "red");
-	}
-	else if (trees.properties.genus == "Quercus" || trees.properties.genus == "Cedrus" ||trees.properties.genus == "Abies" ||trees.properties.genus == "Pinus" ){
-		icon.setAttribute("color" , "orange")
-	}
-}
-
 
 
 /**
