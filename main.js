@@ -70,7 +70,7 @@ function renderTrees(trees) {
 		icon.setAttribute('change-color-on-touch', '');
 		if (tree.properties.affected) {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
-		} else if (trees.properties.genus == "Quercus" || trees.properties.genus == "Cedrus" ||trees.properties.genus == "Abies" ||trees.properties.genus == "Pinus" ) {
+		} else if (tree.properties.genus == "Quercus" || tree.properties.genus == "Cedrus" ||tree.properties.genus == "Abies" ||tree.properties.genus == "Pinus" ) {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
 		} else {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
