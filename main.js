@@ -4,7 +4,7 @@ let treeData;
  * Load and interpret the trees from the geoJson file.
  * @returns promise to return a list of trees
  */
-function loadPlaces() {
+function loadTrees() {
 	return new Promise(function(resolve, reject) {
 		var xhttp = new XMLHttpRequest();
 
@@ -23,14 +23,14 @@ function loadPlaces() {
 }
 
 window.onload = () => {
-	loadPlaces()
+	loadTrees()
 		.then(function(trees) {
 			// save the extracted trees into the global variabel, so that future access is easier
 			treeData = trees;
 			filterTreesInRange(trees, 1).then(function(nearTrees) {
 				renderTrees(nearTrees);
 			});
-	});
+		});
 };
 
 /**
@@ -69,6 +69,7 @@ function renderTrees(trees) {
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
 		setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
+		setColor(icon, tree);
 		scene.appendChild(icon);
 	});
 }
@@ -105,6 +106,22 @@ function setGeometryGLTF(icon, id, path, scale) {
 	icon.setAttribute('look-at', '[gps-camera]');
 	icon.setAttribute('id', "tree " + id);
 }
+
+/**
+ * Die Funktion sucht nach
+ *
+ */
+
+function setColor(icon, tree){
+	if (tree.properties.affected){
+		icon.setAttribute ("color" , "red");
+	}
+	else if (trees.properties.genus == "Quercus" || trees.properties.genus == "Cedrus" ||trees.properties.genus == "Abies" ||trees.properties.genus == "Pinus" ){
+		icon.setAttribute("color" , "orange")
+	}
+}
+
+
 
 /**
  * closes the Infopane
