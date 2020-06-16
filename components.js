@@ -44,18 +44,36 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 				// if a tree has been looked at, before this tree, its model has to change back to the original tree model
 				if(typeof previous_id != "undefined" && previous_id != "") {
 					let previous_element = document.getElementById("tree " + previous_id);
-					setGeometryGLTF(previous_element, previous_id, 'assets/tree.gltf', 5);
+					switch(previous_element.getAttribute('affected')) {
+						case 'yes':
+							setGeometryGLTF(previous_element, previous_id, 'assets/tree_red.gltf', 5);
+							break;
+						case 'maybe':
+							setGeometryGLTF(previous_element, previous_id, 'assets/tree_orange.gltf', 5);
+							break;
+						case 'no':
+							setGeometryGLTF(previous_element, previous_id, 'assets/tree.gltf', 5);
+							break;
+						default:
+							setGeometryGLTF(previous_element, previous_id, 'assets/tree.gltf', 5);
+							//TODO: Fehlermeldung
+							break;
+					}
 				}
-				if(el.id.split(' ')[0] === "tree") {
-					// TODO: different colors and models according to the sickness of the tree
-					// for visualizing as an exclamation mark
-					//setGeometryGLTF(el, id, 'assets/exclamationmark/model.gltf', 800);
-
-					// for visualizing as a question mark
-					setGeometryGLTF(el, id, 'assets/questionmark/scene.gltf', 0.5);
-
-					// for visualizing as a dot
-					//setGeometrySphere(el, id)
+				switch(el.getAttribute('affected')) {
+					case 'yes':
+						setGeometryGLTF(el, id, 'assets/exclamationmark/model.gltf', 800);
+						break;
+					case 'maybe':
+						setGeometryGLTF(el, id, 'assets/questionmark/scene.gltf', 0.5);
+						break;
+					case 'no':
+						setGeometryGLTF(el, id, 'assets/sphere/scene.gltf', 8);
+						break;
+					default:
+						setGeometryGLTF(el, id, 'assets/sphere/scene.gltf', 8);
+						//TODO: Fehlermeldung
+						break;
 				}
 				fillInfoPane(id);
 				// indicate which tree the infopane displays information about

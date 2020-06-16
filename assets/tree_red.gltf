@@ -73,7 +73,7 @@
                                   1,
                                   0,
                                   0,
-                                  1
+                                  0.75
                               ],
                               "metallicFactor" : 0,
                               "roughnessFactor" : 0.5

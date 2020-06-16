@@ -70,11 +70,15 @@ function renderTrees(trees) {
 		icon.setAttribute('change-color-on-touch', '');
 		if (tree.properties.affected) {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
-		} else if (tree.properties.genus == "Quercus" || tree.properties.genus == "Cedrus" ||tree.properties.genus == "Abies" ||tree.properties.genus == "Pinus" ) {
+			icon.setAttribute('affected', "yes");
+		} else if (1===1) {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
+			icon.setAttribute('affected', "maybe");
 		} else {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
+			icon.setAttribute('affected', "no");
 		}
+
 		scene.appendChild(icon);
 	});
 }
@@ -108,7 +112,8 @@ function setGeometrySphere(icon, id) {
 function setGeometryGLTF(icon, id, path, scale) {
 	icon.setAttribute('gltf-model', path);
 	icon.setAttribute('scale', '' + scale + ', ' + scale); // if you want for debugging
-	icon.setAttribute('look-at', '[gps-camera]');
+	//TODO: should the models always be oriented towards the camera?
+	//icon.setAttribute('look-at', '[gps-camera]');
 	icon.setAttribute('id', "tree " + id);
 }
 
@@ -122,7 +127,21 @@ function closeInfopane() {
 		infopane.classList.toggle("closed");
 		let entity_id = infopane.id.split(' ')[1];
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
-		setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
+		switch(icon.getAttribute('affected')) {
+			case 'yes':
+				setGeometryGLTF(icon, entity_id, 'assets/tree_red.gltf', 5);
+				break;
+			case 'maybe':
+				setGeometryGLTF(icon, entity_id, 'assets/tree_orange.gltf', 5);
+				break;
+			case 'no':
+				setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
+				break;
+			default:
+				setGeometryGLTF(icon, entity_id, 'assets/tree.gltf', 5);
+				//TODO: Fehlermeldung
+				break;
+		}
 	}
 }
 
@@ -135,15 +154,21 @@ function openInfopane() {
 		infopane.classList.toggle("closed");
 		let entity_id = infopane.id.split(' ')[1];
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
-		// TODO: different colors and models according to the sickness of the tree
-		// for visualizing as an exclamation mark
-		//setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800);
-
-		// for visualizing as a question mark
-		setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5);
-
-		// for visualizing as a dot
-		//setGeometrySphere(icon, entity_id)
+		switch(icon.getAttribute('affected')) {
+			case 'yes':
+				setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800);
+				break;
+			case 'maybe':
+				setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5);
+				break;
+			case 'no':
+				setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8);
+				break;
+			default:
+				setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8);
+				//TODO: Fehlermeldung
+				break;
+		}
 	}
 }
 
