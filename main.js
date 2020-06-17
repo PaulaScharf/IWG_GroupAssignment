@@ -71,7 +71,7 @@ function renderTrees(trees) {
 		if (tree.properties.affected) {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
 			icon.setAttribute('affected', "yes");
-		} else if (1===1) {
+		} else if (tree.properties.genus == "Quercus" || tree.properties.genus == "Cedrus" ||tree.properties.genus == "Abies" ||tree.properties.genus == "Pinus") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
 			icon.setAttribute('affected', "maybe");
 		} else {
