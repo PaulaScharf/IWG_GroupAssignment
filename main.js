@@ -71,7 +71,7 @@ function renderTrees(trees) {
 		if (tree.properties.affected) {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
 			icon.setAttribute('affected', "yes");
-		} else if (1===1) {
+		} else if (tree.properties.genus == "Quercus" || tree.properties.genus == "Cedrus" ||tree.properties.genus == "Abies" ||tree.properties.genus == "Pinus") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
 			icon.setAttribute('affected', "maybe");
 		} else {
@@ -206,6 +206,36 @@ function openCollapsible(idContent, idLabel) {
 	}
 }
 
+function replaceContentWithTextareas(ids) {
+	let idsString = "[";
+	ids.forEach((id) => {
+		let viewableText = document.getElementById(id);
+		let editableText = document.createElement('textarea');
+		editableText.innerText = viewableText.innerText;
+		editableText.setAttribute("id", id);
+		viewableText.replaceWith(editableText);
+		idsString += "'" + id + "', ";
+	});
+	idsString = idsString.substring(0, idsString.length - 2);
+	idsString += "]";
+
+	document.getElementById("editButton").setAttribute("onclick", "replaceTextareaWithContent(" + idsString + ")");
+}
+
+function replaceTextareaWithContent(ids) {
+	let idsString = "[";
+	ids.forEach((id) => {
+		let editableText = document.getElementById(id);
+		let viewableText = document.createElement('h');
+		viewableText.innerText = editableText.innerText;
+		viewableText.setAttribute("id", id);
+		editableText.replaceWith(viewableText);
+		idsString += "'" + id + "', ";
+	});
+	idsString = idsString.substring(0, idsString.length - 2);
+	idsString += "]";
+	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas(" + idsString + ")");
+}
 
 /**
  * convert from degrees to radians
