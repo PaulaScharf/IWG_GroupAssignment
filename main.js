@@ -213,6 +213,7 @@ function replaceContentWithTextareas(ids) {
 		let editableText = document.createElement('textarea');
 		editableText.innerText = viewableText.innerText;
 		editableText.setAttribute("id", id);
+		editableText.style.color = "#000000";
 		viewableText.replaceWith(editableText);
 		idsString += "'" + id + "', ";
 	});
@@ -227,7 +228,7 @@ function replaceTextareaWithContent(ids) {
 	ids.forEach((id) => {
 		let editableText = document.getElementById(id);
 		let viewableText = document.createElement('h');
-		viewableText.innerText = editableText.innerText;
+		viewableText.innerText = editableText.value;
 		viewableText.setAttribute("id", id);
 		editableText.replaceWith(viewableText);
 		idsString += "'" + id + "', ";
