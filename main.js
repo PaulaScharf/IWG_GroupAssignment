@@ -1,5 +1,6 @@
 // this stores the trees
 let treeData;
+let contentIds = [['treeName', 'name'], ['treeDescription', 'description']];
 /**
  * Load and interpret the trees from the geoJson file.
  * @returns promise to return a list of trees
@@ -189,6 +190,7 @@ function fillInfoPane(id) {
 	if(description === "")
 		description = "no description available for this tree :(";
 	document.getElementById("treeDescription").innerText = description;
+	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + id + "')")
 }
 
 /**
@@ -206,36 +208,37 @@ function openCollapsible(idContent, idLabel) {
 	}
 }
 
-function replaceContentWithTextareas(ids) {
-	let idsString = "[";
-	ids.forEach((id) => {
-		let viewableText = document.getElementById(id);
+function replaceContentWithTextareas(treeId) {
+	contentIds.forEach((id) => {
+		let viewableText = document.getElementById(id[0]);
 		let editableText = document.createElement('textarea');
 		editableText.innerText = viewableText.innerText;
-		editableText.setAttribute("id", id);
+		editableText.setAttribute("id", id[0]);
 		editableText.style.color = "#000000";
 		viewableText.replaceWith(editableText);
-		idsString += "'" + id + "', ";
 	});
-	idsString = idsString.substring(0, idsString.length - 2);
-	idsString += "]";
 
-	document.getElementById("editButton").setAttribute("onclick", "replaceTextareaWithContent(" + idsString + ")");
+	document.getElementById("editButton").setAttribute("onclick", "replaceTextareaWithContent('" + treeId + "')");
 }
 
-function replaceTextareaWithContent(ids) {
-	let idsString = "[";
-	ids.forEach((id) => {
-		let editableText = document.getElementById(id);
+function replaceTextareaWithContent(treeId) {
+	contentIds.forEach((id) => {
+		let editableText = document.getElementById(id[0]);
 		let viewableText = document.createElement('h');
 		viewableText.innerText = editableText.value;
-		viewableText.setAttribute("id", id);
+		updateTreeData(treeId, id[1], editableText.value);
+		viewableText.setAttribute("id", id[0]);
 		editableText.replaceWith(viewableText);
-		idsString += "'" + id + "', ";
 	});
-	idsString = idsString.substring(0, idsString.length - 2);
-	idsString += "]";
-	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas(" + idsString + ")");
+
+	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + treeId + "')");
+}
+
+function updateTreeData(treeId, key, value) {
+	let currentTree = treeData.filter(tree => {
+		return tree.properties.full_id === treeId;
+	});
+	currentTree[0].properties[key] = value;
 }
 
 /**
