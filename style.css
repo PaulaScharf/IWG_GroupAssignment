@@ -195,7 +195,24 @@ body {
   border-bottom:1px solid #636363;
 }
 
-#treeDescription {
+.collapsible:after {
+  content: '▾';
+}
+
+.active:after {
+  content: '▴';
+}
+
+.label {
+  display: block;
+  text-align: left;
+  font-size: 1.3em;
+  padding-left: 2%;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+
+.content {
   display: block;
   background: rgba(55, 93, 186, 0.22);
   text-align: left;
@@ -205,19 +222,20 @@ body {
   margin-left: 8%;
 }
 
-#treeDescription_label {
+.characteristicsLabel {
   display: block;
   text-align: left;
-  font-size: 1.3em;
+  font-size: 1.1em;
   padding-left: 2%;
   color: rgb(255, 255, 255);
   font-weight: bold;
 }
 
-.collapsible:after {
-  content: '▾';
-}
-
-.active:after {
-  content: '▴';
+.characteristicsContent {
+  display: block;
+  text-align: left;
+  font-size: 0.9em;
+  width: 80%;
+  padding-left: 2%;
+  margin-left: 8%;
 }
