@@ -131,6 +131,7 @@ function closeInfopane() {
 	if(!infopane.classList.contains("closed")) {
 		infopane.classList.toggle("closed");
 		let entity_id = infopane.id.split(' ')[1];
+		replaceTextareaWithContent(entity_id);
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
 		switch(icon.getAttribute('affected')) {
 			case 'yes':
@@ -255,16 +256,18 @@ function replaceContentWithTextareas(treeId) {
 function replaceTextareaWithContent(treeId) {
 	contentIds.forEach((id) => {
 		let editableText = document.getElementById(id[0]);
-		let viewableText = document.createElement('h');
-		viewableText.innerText = editableText.value;
-		updateTreeData(treeId, id[1], editableText.value);
-		viewableText.setAttribute("id", id[0]);
-		let className = editableText.getAttribute("class");
-		viewableText.setAttribute("class", className);
-		if (className != null && className.includes("collapsibleContent")) {
-			//TODO
+		if (editableText.tagName === "TEXTAREA") {
+			let viewableText = document.createElement('h');
+			viewableText.innerText = editableText.value;
+			updateTreeData(treeId, id[1], editableText.value);
+			viewableText.setAttribute("id", id[0]);
+			let className = editableText.getAttribute("class");
+			viewableText.setAttribute("class", className);
+			if (className != null && className.includes("collapsibleContent")) {
+				//TODO
+			}
+			editableText.replaceWith(viewableText);
 		}
-		editableText.replaceWith(viewableText);
 	});
 
 	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + treeId + "')");
