@@ -80,8 +80,8 @@ body {
   width:90%;
   margin-right: 5%;
   z-index: 11;
-  background-color: #3a3a3a;
-  color: white;
+  background-color: #f2f2f2;
+  color: #161616;
   position: fixed;
   display: flex;
 
@@ -121,7 +121,7 @@ body {
   height: 25px;
   width: 2px;
   margin-left: 9px;
-  background-color: black;
+  background-color: #000000;
   transform: rotate(45deg);
   Z-index: 1;
 }
@@ -155,7 +155,7 @@ body {
 
 .button {
   border: none;
-  color: white;
+  color: #161616;
   padding: 0.5em 1em;
   text-align: center;
   text-decoration: none;
@@ -184,7 +184,7 @@ body {
 
 #treeName {
   text-align: left;
-  color: #ffffff;
+  color: #161616;
   font-size: 2em;
   display: block;
   padding-left: 5%;
@@ -208,13 +208,13 @@ body {
   text-align: left;
   font-size: 1.3em;
   padding-left: 2%;
-  color: rgb(255, 255, 255);
+  color: #161616;
   font-weight: bold;
 }
 
 .content {
   display: block;
-  background: rgba(55, 93, 186, 0.22);
+  background: rgba(58, 98, 255, 0.3);
   text-align: left;
   font-size: 1em;
   width: 80%;
@@ -227,7 +227,7 @@ body {
   text-align: left;
   font-size: 1.1em;
   padding-left: 2%;
-  color: rgb(255, 255, 255);
+  color: #161616;
   font-weight: bold;
 }
 
@@ -238,4 +238,10 @@ body {
   width: 80%;
   padding-left: 2%;
   margin-left: 8%;
+}
+
+#editButton {
+  background-color: #4396ff;
+  z-index: 99;
+  font-weight: bold;
 }

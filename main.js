@@ -240,6 +240,8 @@ function replaceContentWithTextareas(treeId) {
 			//TODO
 		}
 		editableText.style.color = "#000000";
+		editableText.style.height = viewableText.scrollHeight + "px";
+		editableText.style.width = viewableText.scrollWidth + "px";
 		viewableText.replaceWith(editableText);
 	});
 
