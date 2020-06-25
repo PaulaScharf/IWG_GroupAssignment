@@ -1,6 +1,10 @@
 // this stores the trees
 let treeData;
-let contentIds = [['treeName', 'name'], ['treeDescription', 'description']];
+let contentIds = [['treeName', 'name'],
+	['treeDescription', 'description'],
+	['treeHeight', 'height'],
+	['treeGenus', 'genus'],
+	['treeSpecies', 'species']];
 /**
  * Load and interpret the trees from the geoJson file.
  * @returns promise to return a list of trees
@@ -190,6 +194,18 @@ function fillInfoPane(id) {
 	if(description === "")
 		description = "no description available for this tree :(";
 	document.getElementById("treeDescription").innerText = description;
+	let height = currentTree[0].properties.height;
+	if(height === "")
+		height = "?";
+	document.getElementById("treeHeight").innerText = height;
+	let genus = currentTree[0].properties.genus;
+	if(genus === "")
+		genus = "?";
+	document.getElementById("treeGenus").innerText = genus;
+	let species = currentTree[0].properties.species;
+	if(species === "")
+		species = "?";
+	document.getElementById("treeSpecies").innerText = species;
 	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + id + "')")
 }
 
@@ -208,19 +224,34 @@ function openCollapsible(idContent, idLabel) {
 	}
 }
 
+/**
+ *
+ * @param treeId
+ */
 function replaceContentWithTextareas(treeId) {
 	contentIds.forEach((id) => {
 		let viewableText = document.getElementById(id[0]);
 		let editableText = document.createElement('textarea');
 		editableText.innerText = viewableText.innerText;
 		editableText.setAttribute("id", id[0]);
+		let className = viewableText.getAttribute("class");
+		editableText.setAttribute("class", className);
+		if (className != null && className.includes("collapsibleContent")) {
+			//TODO
+		}
 		editableText.style.color = "#000000";
+		editableText.style.height = viewableText.scrollHeight + "px";
+		editableText.style.width = viewableText.scrollWidth + "px";
 		viewableText.replaceWith(editableText);
 	});
 
 	document.getElementById("editButton").setAttribute("onclick", "replaceTextareaWithContent('" + treeId + "')");
 }
 
+/**
+ *
+ * @param treeId
+ */
 function replaceTextareaWithContent(treeId) {
 	contentIds.forEach((id) => {
 		let editableText = document.getElementById(id[0]);
@@ -228,6 +259,11 @@ function replaceTextareaWithContent(treeId) {
 		viewableText.innerText = editableText.value;
 		updateTreeData(treeId, id[1], editableText.value);
 		viewableText.setAttribute("id", id[0]);
+		let className = editableText.getAttribute("class");
+		viewableText.setAttribute("class", className);
+		if (className != null && className.includes("collapsibleContent")) {
+			//TODO
+		}
 		editableText.replaceWith(viewableText);
 	});
 

@@ -32,8 +32,19 @@
     <div id="infopane " class="infopane closed">
         <div id="infocontainer">
             <h id="treeName">Information</h>
-            <div id="treeDescription_label" class="collapsible" onclick="openCollapsible('treeDescription', 'treeDescription_label')">Description </div>
-            <div id="treeDescription" class="collapsibleContent">description</div>
+            <div style="height: 100%; overflow-y: scroll">
+                <div id="treeCharacteristics_label" class="collapsible label" onclick="openCollapsible('treeCharacteristics', 'treeCharacteristics_label')">Characteristics </div>
+                <div id="treeCharacteristics" class="collapsibleContent content">
+                    <div id="treeHeight_label" class="characteristicsLabel">Height: </div><div id="treeHeight" class="characteristicsContent">?</div>
+                    <div id="treeGenus_label" class="characteristicsLabel">Genus: </div><div id="treeGenus" class="characteristicsContent">?</div>
+                    <div id="treeSpecies_label" class="characteristicsLabel">Genus: </div><div id="treeSpecies" class="characteristicsContent">?</div>
+                </div>
+                <div id="treeDescription_label" class="collapsible label" onclick="openCollapsible('treeDescription', 'treeDescription_label')">Description </div>
+                <div id="treeDescription" class="collapsibleContent content">?</div>
+                <br/>
+                <br/>
+                <br/>
+            </div>
             <button class="mdiv" id="close" onclick="closeInfopane()">
                 <div class="mdiv-inner">
                     <div class="md"></div>
@@ -42,7 +53,7 @@
             <button class="mdiv" id="open" onclick="openInfopane()">
                 ▲
             </button>
-            <button id="editButton" class="button bottomRight" style="background-color: #4CAF50;" onclick="replaceContentWithTextareas()">Edit</button>
+            <button id="editButton" class="button bottomRight" onclick="replaceContentWithTextareas()">Edit</button>
         </div>
     </div>
 </div>
