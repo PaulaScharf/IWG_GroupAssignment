@@ -114,11 +114,10 @@ function setGeometrySphere(icon, id) {
  * @param path - the path to the gltf model
  * @param scale - scale of the gltf model
  */
-function setGeometryGLTF(icon, id, path, scale) {
+function setGeometryGLTF(icon, id, path, scale, height) {
 	icon.setAttribute('gltf-model', path);
 	icon.setAttribute('scale', '' + scale + ', ' + scale); // if you want for debugging
-	//TODO: should the models always be oriented towards the camera?
-	//icon.setAttribute('look-at', '[gps-camera]');
+	icon.setAttribute('look-at', '[gps-camera]');
 	icon.setAttribute('id', "tree " + id);
 }
 
@@ -162,16 +161,16 @@ function openInfopane() {
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
 		switch(icon.getAttribute('affected')) {
 			case 'yes':
-				setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800);
+				setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800, 2);
 				break;
 			case 'maybe':
-				setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5);
+				setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5, 2);
 				break;
 			case 'no':
-				setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8);
+				setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8, 4);
 				break;
 			default:
-				setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8);
+				setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8, 4);
 				//TODO: Fehlermeldung
 				break;
 		}
@@ -238,11 +237,11 @@ function replaceContentWithTextareas(treeId) {
 		let className = viewableText.getAttribute("class");
 		editableText.setAttribute("class", className);
 		if (className != null && className.includes("collapsibleContent")) {
-			//TODO
+			//TODO:collapse/decollapse everything
 		}
 		editableText.style.color = "#000000";
-		editableText.style.height = viewableText.scrollHeight + "px";
-		editableText.style.width = viewableText.scrollWidth + "px";
+		editableText.style.maxHeight = viewableText.scrollHeight + "px";
+		editableText.style.maxWidth = viewableText.scrollWidth + "px";
 		viewableText.replaceWith(editableText);
 	});
 
@@ -264,8 +263,10 @@ function replaceTextareaWithContent(treeId) {
 			let className = editableText.getAttribute("class");
 			viewableText.setAttribute("class", className);
 			if (className != null && className.includes("collapsibleContent")) {
-				//TODO
+				//TODO:collapse/decollapse everything
 			}
+			viewableText.style.maxHeight = editableText.scrollHeight + "px";
+			//viewableText.style.width = editableText.scrollWidth + "px";
 			editableText.replaceWith(viewableText);
 		}
 	});
@@ -328,4 +329,16 @@ function getPosition() {
 			reject(e);
 		}
 	});
+}
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive).
+ * The value is no lower than min (or the next integer greater than min
+ * if min isn't an integer) and no greater than max (or the next integer
+ * lower than max if max isn't an integer).
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }

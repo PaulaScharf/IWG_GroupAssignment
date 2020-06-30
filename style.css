@@ -187,6 +187,7 @@ body {
   color: #161616;
   font-size: 2em;
   display: block;
+  max-width: 80%;
   padding-left: 5%;
   margin-left:5%;
   margin-right:5%;
