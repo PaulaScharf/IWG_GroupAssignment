@@ -342,3 +342,8 @@ function getRandomInt(min, max) {
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+function switchInfoboxContent(oldId, newId) {
+	document.getElementById(oldId).style.display = "none";
+	document.getElementById(newId).style.display = "block";
+}

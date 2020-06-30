@@ -246,3 +246,38 @@ body {
   z-index: 99;
   font-weight: bold;
 }
+
+/********************************css for the menu*************************************************************/
+
+.vertical-menu {
+  width: 200px;
+}
+
+.vertical-menu a {
+  background-color: #161616;
+  color: #f2f2f2;
+  display: block;
+  padding: 12px;
+  text-decoration: none;
+}
+
+.vertical-menu a:hover {
+  background-color: #161616;
+}
+
+.vertical-menu a.active {
+  background-color: #4396ff;
+  color: #f2f2f2;
+}
+
+#menu {
+
+}
+
+#characteristics {
+  display: none;
+}
+
+#images {
+  display: none;
+}
