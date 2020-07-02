@@ -43,7 +43,7 @@ AFRAME.registerComponent('show-distance-on-gaze', {
 			if(previous_id != id) {
 				// if a tree has been looked at, before this tree, its model has to change back to the original tree model
 				if(typeof previous_id != "undefined" && previous_id != "") {
-					replaceTextareaWithContent(previous_id);
+					replaceTextareaWithContent();
 					let previous_element = document.getElementById("tree " + previous_id);
 					switch(previous_element.getAttribute('affected')) {
 						case 'yes':

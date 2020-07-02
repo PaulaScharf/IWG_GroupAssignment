@@ -130,7 +130,7 @@ function closeInfopane() {
 	if(!infopane.classList.contains("closed")) {
 		infopane.classList.toggle("closed");
 		let entity_id = infopane.id.split(' ')[1];
-		replaceTextareaWithContent(entity_id);
+		replaceTextareaWithContent();
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
 		switch(icon.getAttribute('affected')) {
 			case 'yes':
@@ -228,7 +228,8 @@ function openCollapsible(idContent, idLabel) {
  *
  * @param treeId
  */
-function replaceContentWithTextareas(treeId) {
+function replaceContentWithTextareas() {
+	let treeId =  document.querySelector('[id^="infopane"]').getAttribute("id").split(' ')[1];
 	contentIds.forEach((id) => {
 		let viewableText = document.getElementById(id[0]);
 		let editableText = document.createElement('textarea');
@@ -244,15 +245,19 @@ function replaceContentWithTextareas(treeId) {
 		editableText.style.maxWidth = viewableText.scrollWidth + "px";
 		viewableText.replaceWith(editableText);
 	});
-
-	document.getElementById("editButton").setAttribute("onclick", "replaceTextareaWithContent('" + treeId + "')");
+	let editButton = document.getElementById("editButton");
+	if (editButton) {
+		editButton.setAttribute("onclick", "replaceTextareaWithContent()");
+		editButton.innerText = "Done";
+	}
 }
 
 /**
  *
  * @param treeId
  */
-function replaceTextareaWithContent(treeId) {
+function replaceTextareaWithContent() {
+	let treeId =  document.querySelector('[id^="infopane"]').getAttribute("id").split(' ')[1];
 	contentIds.forEach((id) => {
 		let editableText = document.getElementById(id[0]);
 		if (editableText.tagName === "TEXTAREA") {
@@ -270,8 +275,11 @@ function replaceTextareaWithContent(treeId) {
 			editableText.replaceWith(viewableText);
 		}
 	});
-
-	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + treeId + "')");
+	let editButton = document.getElementById("editButton");
+	if (editButton) {
+		editButton.setAttribute("onclick", "replaceContentWithTextareas()");
+		editButton.innerText = "Edit";
+	}
 }
 
 function updateTreeData(treeId, key, value) {
@@ -341,4 +349,12 @@ function getRandomInt(min, max) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function switchInfoboxContent(oldId, newId) {
+	if (oldId == "characteristics") {
+		replaceTextareaWithContent();
+	}
+	document.getElementById(oldId).style.display = "none";
+	document.getElementById(newId).style.display = "block";
 }
