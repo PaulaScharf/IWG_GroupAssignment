@@ -32,7 +32,7 @@
     <div id="infopane " class="infopane closed">
         <div id="infocontainer">
             <h id="treeName">Information</h>
-            <div id="menu">
+            <div id="menu" style="margin: auto; width: 50%; padding: 10px;">
                 <div class="vertical-menu">
                     <a href="#" class="active">Menu</a>
                     <a href="#" onclick="switchInfoboxContent('menu', 'characteristics')">characteristics</a>
@@ -40,6 +40,7 @@
                 </div>
             </div>
             <div id="characteristics" style="height: 100%; overflow-y: scroll">
+                <button id="backButtonCharacteristics" class="button topRight" onclick="switchInfoboxContent('characteristics', 'menu')">←</button>
                 <div id="treeCharacteristics_label" class="collapsible label" onclick="openCollapsible('treeCharacteristics', 'treeCharacteristics_label')">Characteristics </div>
                 <div id="treeCharacteristics" class="collapsibleContent content">
                     <div id="treeHeight_label" class="characteristicsLabel">Height: </div><div id="treeHeight" class="characteristicsContent">?</div>
@@ -51,8 +52,10 @@
                 <br/>
                 <br/>
                 <br/>
+                <button id="editButton" class="button bottomRight" onclick="replaceContentWithTextareas()">Edit</button>
             </div>
             <div id="images">
+                <button id="backButtonImages" class="button topRight" onclick="switchInfoboxContent('images', 'menu')">←</button>
                 test
             </div>
             <button class="mdiv" id="close" onclick="closeInfopane()">
@@ -63,7 +66,6 @@
             <button class="mdiv" id="open" onclick="openInfopane()">
                 ▲
             </button>
-            <button id="editButton" class="button bottomRight" onclick="replaceContentWithTextareas()">Edit</button>
         </div>
     </div>
 </div>

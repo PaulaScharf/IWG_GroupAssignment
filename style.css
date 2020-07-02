@@ -171,6 +171,12 @@ body {
   position: absolute;
 }
 
+.topRight {
+  right: 0;
+  top: 35px;
+  position: absolute;
+}
+
 .infopane.closed .button{
   display: none;
 }
@@ -194,6 +200,7 @@ body {
   padding-right:5%;
   padding-bottom:2px;
   border-bottom:1px solid #636363;
+  position: sticky;
 }
 
 .collapsible:after {
@@ -242,31 +249,39 @@ body {
 }
 
 #editButton {
-  background-color: #4396ff;
+  background-color: #429aff;
   z-index: 99;
   font-weight: bold;
 }
 
-/********************************css for the menu*************************************************************/
-
-.vertical-menu {
-  width: 200px;
+#backButtonImages,#backButtonCharacteristics {
+  background-color: #1e2d6d;
+  color: #e4e4e4;
+  z-index: 99;
+  font-weight: bold;
+  padding: 0.2em 0.5em;
+  font-size: 1em;
+  margin: 2px 2px;
 }
 
+/********************************css for the menu*************************************************************/
+
 .vertical-menu a {
-  background-color: #161616;
-  color: #f2f2f2;
+  background-color: #c2c2c2;
+  border-style: solid;
+  border-color: #161616;
+  color: #161616;
   display: block;
   padding: 12px;
   text-decoration: none;
 }
 
 .vertical-menu a:hover {
-  background-color: #161616;
+  background-color: #aeaeae;
 }
 
 .vertical-menu a.active {
-  background-color: #4396ff;
+  background-color: #1e2d6d;
   color: #f2f2f2;
 }
 
