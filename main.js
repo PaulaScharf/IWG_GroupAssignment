@@ -73,6 +73,7 @@ function renderTrees(trees) {
 		icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
+		randomizeTreeProperties(tree);
 		if (tree.properties.affected) {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
 			icon.setAttribute('affected', "yes");
@@ -86,6 +87,37 @@ function renderTrees(trees) {
 
 		scene.appendChild(icon);
 	});
+}
+
+/**
+ * This randomizes some properties of a tree. The properties are:
+ * "affected", "genus", "name" and "height"
+ * @param tree
+ */
+function randomizeTreeProperties(tree) {
+	tree.properties.affected = randomOption([true, false, false, false]);
+	if (!tree.properties.genus) {
+		tree.properties.genus = randomOption(["Quercus","Cedrus","Abies","Pinus", "Malus","Pyrus","Picea","Fagus",
+			"Tilia","Carpinus","Acer","Ginkgo","Fraxinus","Alnus"]);
+	}
+	if (!tree.properties.name) {
+		tree.properties.name = randomOption(["","","","","","","","","","","","","peace-tree", "tree of life",
+			"friendly tree", "this tree", "old Betty", "Leafy", "young chappy", "major"]);
+	}
+	if (!tree.properties.height) {
+		tree.properties.height = randomOption(["","","","","","","","","","","","","5 meters", "40 meters",
+			"10 meters", "7 meters", "20 meters", "25 meters", "17 meters", "4 meters"]);
+	}
+}
+
+/**
+ * this chooses a random option from a list of options.
+ * @param options
+ * @returns random options
+ */
+function randomOption(options) {
+	let value = Math.floor(Math.random() * options.length);
+	return options[value];
 }
 
 /**
@@ -188,7 +220,7 @@ function fillInfoPane(id) {
 	});
 	let name = currentTree[0].properties.name;
 	if(name === "")
-		name = "XXX";
+		name = "?";
 	document.getElementById("treeName").innerText = name;
 	let description = currentTree[0].properties.description;
 	if(description === "")
@@ -225,8 +257,7 @@ function openCollapsible(idContent, idLabel) {
 }
 
 /**
- *
- * @param treeId
+ * This replaces the content of the infobox with textareas. It is used, when the edit mode is started.
  */
 function replaceContentWithTextareas() {
 	let treeId =  document.querySelector('[id^="infopane"]').getAttribute("id").split(' ')[1];
@@ -253,8 +284,7 @@ function replaceContentWithTextareas() {
 }
 
 /**
- *
- * @param treeId
+ * This replaces the textarea of the infobox with normal divs. It is used, when the edit mode ends.
  */
 function replaceTextareaWithContent() {
 	let treeId =  document.querySelector('[id^="infopane"]').getAttribute("id").split(' ')[1];
@@ -282,6 +312,12 @@ function replaceTextareaWithContent() {
 	}
 }
 
+/**
+ * updates a value of a given key of a given tree
+ * @param treeId
+ * @param key
+ * @param value
+ */
 function updateTreeData(treeId, key, value) {
 	let currentTree = treeData.filter(tree => {
 		return tree.properties.full_id === treeId;
@@ -338,19 +374,13 @@ function getPosition() {
 		}
 	});
 }
-/**
- * Returns a random integer between min (inclusive) and max (inclusive).
- * The value is no lower than min (or the next integer greater than min
- * if min isn't an integer) and no greater than max (or the next integer
- * lower than max if max isn't an integer).
- * Using Math.round() will give you a non-uniform distribution!
- */
-function getRandomInt(min, max) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
+/**
+ * The infobox contains several possible contents which are grouped under one id.
+ * This function hides content and makes different content visible.
+ * @param oldId
+ * @param newId
+ */
 function switchInfoboxContent(oldId, newId) {
 	if (oldId == "characteristics") {
 		replaceTextareaWithContent();
