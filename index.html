@@ -34,13 +34,13 @@
             <h id="treeName">Information</h>
             <div id="menu" style="margin: auto; width: 50%; padding: 10px;">
                 <div class="vertical-menu">
-                    <a href="#" class="active">Menu</a>
+                    <a href="#" class="current">Menu</a>
                     <a href="#" onclick="switchInfoboxContent('menu', 'characteristics')">characteristics</a>
                     <a href="#" onclick="switchInfoboxContent('menu', 'images')">images</a>
                 </div>
             </div>
             <div id="characteristics" style="height: 100%; overflow-y: scroll">
-                <button id="backButtonCharacteristics" class="button topRight" onclick="switchInfoboxContent('characteristics', 'menu')">←</button>
+                <button id="backButtonCharacteristics" class="button topRightLower" onclick="switchInfoboxContent('characteristics', 'menu')">←</button>
                 <div id="treeCharacteristics_label" class="collapsible label" onclick="openCollapsible('treeCharacteristics', 'treeCharacteristics_label')">Characteristics </div>
                 <div id="treeCharacteristics" class="collapsibleContent content">
                     <div id="treeHeight_label" class="characteristicsLabel">Height: </div><div id="treeHeight" class="characteristicsContent">?</div>
@@ -55,15 +55,13 @@
                 <button id="editButton" class="button bottomRight" onclick="replaceContentWithTextareas()">Edit</button>
             </div>
             <div id="images">
-                <button id="backButtonImages" class="button topRight" onclick="switchInfoboxContent('images', 'menu')">←</button>
+                <button id="backButtonImages" class="button topRightLower" onclick="switchInfoboxContent('images', 'menu')">←</button>
                 test
             </div>
-            <button class="mdiv" id="close" onclick="closeInfopane()">
-                <div class="mdiv-inner">
-                    <div class="md"></div>
-                </div>
+            <button id="close" class="button topRight" onclick="closeInfopane()">
+                ▼
             </button>
-            <button class="mdiv" id="open" onclick="openInfopane()">
+            <button id="open" class="button topRight" onclick="openInfopane()">
                 ▲
             </button>
         </div>

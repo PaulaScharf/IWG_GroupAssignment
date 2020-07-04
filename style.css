@@ -134,20 +134,20 @@ body {
   Z-index: 2;
 }
 
-.infopane.closed .mdiv#close{
+.infopane.closed .button#close{
   display: none;
 }
 
-.infopane .mdiv#close{
+.infopane .button#close{
   display: block;
 }
 
 /* the button to open the infopane is only displayed, if there is content in the infobox (indicated by "filled")*/
-.infopane.closed.filled .mdiv#open{
+.infopane.closed.filled .button#open{
   display: block;
 }
 
-.infopane .mdiv#open{
+.infopane .button#open{
   display: none;
 }
 
@@ -172,6 +172,12 @@ body {
 }
 
 .topRight {
+  right: 0;
+  top: 0;
+  position: absolute;
+}
+
+.topRightLower {
   right: 0;
   top: 35px;
   position: absolute;
@@ -254,7 +260,7 @@ body {
   font-weight: bold;
 }
 
-#backButtonImages,#backButtonCharacteristics {
+#backButtonImages,#backButtonCharacteristics, #close, #open {
   background-color: #1e2d6d;
   color: #e4e4e4;
   z-index: 99;
@@ -280,7 +286,7 @@ body {
   background-color: #aeaeae;
 }
 
-.vertical-menu a.active {
+.vertical-menu a.current {
   background-color: #1e2d6d;
   color: #f2f2f2;
 }
