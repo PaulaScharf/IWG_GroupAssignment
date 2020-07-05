@@ -388,3 +388,26 @@ function switchInfoboxContent(oldId, newId) {
 	document.getElementById(oldId).style.display = "none";
 	document.getElementById(newId).style.display = "block";
 }
+
+function changeAffectedStatus() {
+	let infopane = document.querySelector('[id^="infopane"]');
+	let entity_id = infopane.id.split(' ')[1];
+	let icon = document.querySelector('[id$="' + entity_id +'"]');
+	if(document.getElementById('red').checked) {
+		setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800, 2);
+		icon.setAttribute('affected', "yes");
+		updateTreeData(entity_id, "affected", true)
+		console.log("This tree is affected.")
+	} else if(document.getElementById('orange').checked) {
+		setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5, 2);
+		icon.setAttribute('affected', "maybe");
+		updateTreeData(entity_id, "affected", false)
+		console.log("This Tree tree be affected.")
+	} else if(document.getElementById("green").checked){
+		setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8, 4);
+		icon.setAttribute('affected', "no");
+		updateTreeData(entity_id, "affected", false)
+		console.log("This is not affected.It's healthy.")
+
+	}
+}
