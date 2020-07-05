@@ -38,6 +38,17 @@
                     <a href="#" onclick="switchInfoboxContent('menu', 'characteristics')">characteristics</a>
                     <a href="#" onclick="switchInfoboxContent('menu', 'images')">images</a>
                 </div>
+                
+                <form action="/action_page.php">
+                    <p> Please select affected?: </p>
+                    <input type="radio" id="red" name="affectedStatus" value="yes" onclick="changeAffectedStatus()">
+                    <label for="red">yes</label><br>
+                    <input type="radio" id="orange" name="affectedStatus" value="maybe" onclick="changeAffectedStatus()">
+                    <label for="orange">maybe</label><br>
+                    <input type="radio" id="green" name="affectedStatus" value="no" onclick="changeAffectedStatus()">
+                    <label for="green">no</label>
+                </form>
+
             </div>
             <div id="characteristics" style="height: 100%; overflow-y: scroll">
                 <button id="backButtonCharacteristics" class="button topRightLower" onclick="switchInfoboxContent('characteristics', 'menu')">←</button>
