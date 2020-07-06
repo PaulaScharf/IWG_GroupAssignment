@@ -74,12 +74,20 @@ function renderTrees(trees) {
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
 		randomizeTreeProperties(tree);
-		if (tree.properties.affected) {
+		if (tree.properties.affected === "yes") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
 			icon.setAttribute('affected', "yes");
-		} else if (tree.properties.genus == "Quercus" || tree.properties.genus == "Cedrus" ||tree.properties.genus == "Abies" ||tree.properties.genus == "Pinus") {
+		} else if (tree.properties.affected === "maybe") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
 			icon.setAttribute('affected', "maybe");
+		} else if (tree.properties.affected === "no") {
+			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
+			icon.setAttribute('affected', "no");
+			// if the property "affected" is not correctly set, then check if the genus indicates a possible affection
+		} else if (tree.properties.genus === "Quercus" || tree.properties.genus === "Cedrus" ||tree.properties.genus === "Abies" ||tree.properties.genus === "Pinus") {
+			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
+			icon.setAttribute('affected', "maybe");
+			// if there is no hint towards the affection, then just assume the tree is unaffected
 		} else {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
 			icon.setAttribute('affected', "no");
@@ -95,10 +103,14 @@ function renderTrees(trees) {
  * @param tree
  */
 function randomizeTreeProperties(tree) {
-	tree.properties.affected = randomOption([true, false, false, false]);
+	tree.properties.affected = randomOption(["yes", "maybe", "no", "no"]);
 	if (!tree.properties.genus) {
-		tree.properties.genus = randomOption(["Quercus","Cedrus","Abies","Pinus", "Malus","Pyrus","Picea","Fagus",
-			"Tilia","Carpinus","Acer","Ginkgo","Fraxinus","Alnus"]);
+		if (tree.properties.affected === "no") {
+			tree.properties.genus = randomOption(["Quercus", "Cedrus", "Abies", "Pinus", "Malus", "Pyrus", "Picea", "Fagus",
+				"Tilia", "Carpinus", "Acer", "Ginkgo", "Fraxinus", "Alnus"]);
+		} else {
+			tree.properties.genus = randomOption(["Quercus", "Cedrus", "Abies", "Pinus"]);
+		}
 	}
 	if (!tree.properties.name) {
 		tree.properties.name = randomOption(["","","","","","","","","","","","","peace-tree", "tree of life",
@@ -235,9 +247,36 @@ function fillInfoPane(id) {
 		genus = "?";
 	document.getElementById("treeGenus").innerText = genus;
 	let species = currentTree[0].properties.species;
-	if(species === "")
+	if(species === "") {
 		species = "?";
+	}
 	document.getElementById("treeSpecies").innerText = species;
+	let radioAffected = document.getElementById("red");
+	let radioMaybeAffected = document.getElementById("orange");
+	let radioNotAffected = document.getElementById("green");
+	switch(currentTree[0].properties.affected) {
+		case 'yes':
+			radioAffected.checked = true;
+			radioMaybeAffected.checked = false;
+			radioNotAffected.checked = false;
+			break;
+		case 'maybe':
+			radioAffected.checked = false;
+			radioMaybeAffected.checked = true;
+			radioNotAffected.checked = false;
+			break;
+		case 'no':
+			radioAffected.checked = false;
+			radioMaybeAffected.checked = false;
+			radioNotAffected.checked = true;
+			break;
+		default:
+			radioAffected.checked = false;
+			radioMaybeAffected.checked = false;
+			radioNotAffected.checked = false;
+			//TODO: Fehlermeldung
+			break;
+	}
 	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + id + "')")
 }
 
@@ -396,17 +435,17 @@ function changeAffectedStatus() {
 	if(document.getElementById('red').checked) {
 		setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800, 2);
 		icon.setAttribute('affected', "yes");
-		updateTreeData(entity_id, "affected", true)
+		updateTreeData(entity_id, "affected", "yes");
 		console.log("This tree is affected.")
 	} else if(document.getElementById('orange').checked) {
 		setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5, 2);
 		icon.setAttribute('affected', "maybe");
-		updateTreeData(entity_id, "affected", false)
+		updateTreeData(entity_id, "affected", "maybe");
 		console.log("This Tree tree be affected.")
 	} else if(document.getElementById("green").checked){
 		setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8, 4);
 		icon.setAttribute('affected', "no");
-		updateTreeData(entity_id, "affected", false)
+		updateTreeData(entity_id, "affected", "no");
 		console.log("This is not affected.It's healthy.")
 
 	}
