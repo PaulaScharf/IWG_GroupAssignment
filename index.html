@@ -11,6 +11,7 @@
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
 </head>
 <script src="./components.js"></script>
 <script src="./main.js"></script>
@@ -68,9 +69,12 @@
                 <br/>
                 <button id="editButton" class="button bottomRight" onclick="replaceContentWithTextareas()">Edit</button>
             </div>
-            <div id="images">
+            <div id="images" style="height: 100%; overflow-y: scroll">
                 <button id="backButtonImages" class="button topRightLower" onclick="switchInfoboxContent('images', 'menu')">←</button>
-                test
+                <button id="editButtonImg" class="button bottomRight" onclick="replaceContentWithTextareas()">Edit</button>
+                <br/>
+                <br/>
+                <br/>
             </div>
             <button id="close" class="button topRight" onclick="closeInfopane()">
                 ▼
