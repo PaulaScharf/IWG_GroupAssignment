@@ -4,7 +4,8 @@ let contentIds = [['treeName', 'name'],
 	['treeDescription', 'description'],
 	['treeHeight', 'height'],
 	['treeGenus', 'genus'],
-	['treeSpecies', 'species']];
+	['treeSpecies', 'species'],
+	['img', 'image']];
 /**
  * Load and interpret the trees from the geoJson file.
  * @returns promise to return a list of trees
@@ -119,6 +120,11 @@ function randomizeTreeProperties(tree) {
 	if (!tree.properties.height) {
 		tree.properties.height = randomOption(["","","","","","","","","","","","","5 meters", "40 meters",
 			"10 meters", "7 meters", "20 meters", "25 meters", "17 meters", "4 meters"]);
+	}
+	if (!tree.properties.image) {
+		tree.properties.image = randomOption([
+			"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Eichenprozessionsspinner_JPW03.jpg/800px-Eichenprozessionsspinner_JPW03.jpg",
+		"https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Thaumetopoea_processionea_caterpillars_nest.JPG/1280px-Thaumetopoea_processionea_caterpillars_nest.JPG"]);
 	}
 }
 
@@ -277,6 +283,20 @@ function fillInfoPane(id) {
 			//TODO: Fehlermeldung
 			break;
 	}
+	let image = currentTree[0].properties.image;
+	if(image != "") {
+		let imageContainer = document.getElementById("images");
+		let child = document.querySelector('[id^="img"]');
+		while (child) {
+			imageContainer.removeChild(child);
+			child = document.querySelector('[id^="img"]');
+		}
+		let imageDiv = document.createElement('div');
+		imageDiv.style.content = "url(" + image + ")";
+		imageDiv.style.width= '80%';
+		imageDiv.id = "img";
+		imageContainer.prepend(imageDiv);
+	}
 	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + id + "')")
 }
 
@@ -316,9 +336,14 @@ function replaceContentWithTextareas() {
 		viewableText.replaceWith(editableText);
 	});
 	let editButton = document.getElementById("editButton");
+	let editButtonImg = document.getElementById("editButtonImg");
 	if (editButton) {
 		editButton.setAttribute("onclick", "replaceTextareaWithContent()");
 		editButton.innerText = "Done";
+	}
+	if (editButtonImg) {
+		editButtonImg.setAttribute("onclick", "replaceTextareaWithContent()");
+		editButtonImg.innerText = "Done";
 	}
 }
 
@@ -421,13 +446,16 @@ function getPosition() {
  * @param newId
  */
 function switchInfoboxContent(oldId, newId) {
-	if (oldId == "characteristics") {
+	if (oldId == "characteristics" || oldId == "images") {
 		replaceTextareaWithContent();
 	}
 	document.getElementById(oldId).style.display = "none";
 	document.getElementById(newId).style.display = "block";
 }
 
+/**
+ *
+ */
 function changeAffectedStatus() {
 	let infopane = document.querySelector('[id^="infopane"]');
 	let entity_id = infopane.id.split(' ')[1];
