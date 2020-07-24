@@ -1,11 +1,27 @@
-// this stores the trees
+// this stores the tree-data from the geojson
 let treeData;
+// this stores which elements of the infobox are editable and what corresponding attribute of the tree-data they contain
 let contentIds = [['treeName', 'name'],
 	['treeDescription', 'description'],
 	['treeHeight', 'height'],
 	['treeGenus', 'genus'],
 	['treeSpecies', 'species'],
 	['img', 'image']];
+
+/**
+ * When the window is loaded the tree-data from the geojson is loaded, saved and displayed
+ */
+window.onload = () => {
+	loadTrees()
+		.then(function(trees) {
+			// save the extracted trees into the global variabel, so that future access is easier
+			treeData = trees;
+			filterTreesInRange(trees, 1).then(function(nearTrees) {
+				renderTrees(nearTrees);
+			});
+		});
+};
+
 /**
  * Load and interpret the trees from the geoJson file.
  * @returns promise to return a list of trees
@@ -28,29 +44,22 @@ function loadTrees() {
 	});
 }
 
-window.onload = () => {
-	loadTrees()
-		.then(function(trees) {
-			// save the extracted trees into the global variabel, so that future access is easier
-			treeData = trees;
-			filterTreesInRange(trees, 1).then(function(nearTrees) {
-				renderTrees(nearTrees);
-			});
-		});
-};
-
 /**
  * Calculates all the trees in a given range from a given array.
  * @param trees - array of trees
  * @param range - in km
+ * @return promise to return the trees in the given range
  */
 function filterTreesInRange(trees, range) {
 	return new Promise(function(resolve, reject) {
 		let filteredTrees = [];
+		// retrieve position of device and use it to calculate distance
+		// maybe the distance could also be taken from the a-frame element
 		getPosition().then((myPosition) => {
 			trees.forEach((tree) => {
 				let distance = distanceInKmBetweenEarthCoordinates(tree.geometry.coordinates[1], tree.geometry.coordinates[0],
 					myPosition.coords.latitude, myPosition.coords.longitude);
+				// if the distance of the tree is inside the range add the tree to the result
 				if (distance <= range) {
 					filteredTrees.push(tree);
 				}
@@ -62,7 +71,7 @@ function filterTreesInRange(trees, range) {
 
 /**
  * for each tree initialize an icon in the AR scene
- * @param trees
+ * @param trees - array of trees
  */
 function renderTrees(trees) {
 	scene = document.querySelector('a-scene');
@@ -70,20 +79,22 @@ function renderTrees(trees) {
 		const latitude = tree.geometry.coordinates[1];
 		const longitude = tree.geometry.coordinates[0];
 
+		// initialize the a-frame entity
 		let icon = document.createElement('a-entity');
 		icon.setAttribute('gps-entity-place', `latitude: ${latitude}; longitude: ${longitude}`);
 		icon.setAttribute('show-distance-on-gaze', '');
 		icon.setAttribute('change-color-on-touch', '');
+		icon.setAttribute('affected', tree.properties.affected);
+
 		randomizeTreeProperties(tree);
+
+		// choose the gltf-model for the tree based on its affected-status
 		if (tree.properties.affected === "yes") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_red.gltf', 5);
-			icon.setAttribute('affected', "yes");
 		} else if (tree.properties.affected === "maybe") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
-			icon.setAttribute('affected', "maybe");
 		} else if (tree.properties.affected === "no") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree.gltf', 5);
-			icon.setAttribute('affected', "no");
 			// if the property "affected" is not correctly set, then check if the genus indicates a possible affection
 		} else if (tree.properties.genus === "Quercus" || tree.properties.genus === "Cedrus" ||tree.properties.genus === "Abies" ||tree.properties.genus === "Pinus") {
 			setGeometryGLTF(icon, tree.properties.full_id, 'assets/tree_orange.gltf', 5);
@@ -94,13 +105,14 @@ function renderTrees(trees) {
 			icon.setAttribute('affected', "no");
 		}
 
+		// add the created element to the scene
 		scene.appendChild(icon);
 	});
 }
 
 /**
  * This randomizes some properties of a tree. The properties are:
- * "affected", "genus", "name" and "height"
+ * "affected", "genus", "name", "height" and "image"
  * @param tree
  */
 function randomizeTreeProperties(tree) {
@@ -139,32 +151,13 @@ function randomOption(options) {
 }
 
 /**
- * change the 3D-representation of a given icon to a sphere.
- * @param icon
- * @param id
- */
-function setGeometrySphere(icon, id) {
-	if(icon.hasAttribute('gltf-model')) {
-		icon.removeAttribute('gltf-model');
-	}
-	icon.setAttribute('geometry', 'primitive: sphere');
-	icon.setAttribute('color', '#2e9916');
-	icon.setAttribute('look-at', '[gps-camera]');
-	icon.setAttribute('material', 'opacity: 1');
-	icon.setAttribute('rotation', '0 0 0');
-	icon.setAttribute('radius', '10');
-	icon.setAttribute('scale', '5 5 5');
-	icon.setAttribute('id', "tree " + id);
-}
-
-/**
  * change the 3D-representation of a given icon to a gltf-model.
  * @param icon - the tree icon
  * @param id - the id of the tree
  * @param path - the path to the gltf model
  * @param scale - scale of the gltf model
  */
-function setGeometryGLTF(icon, id, path, scale, height) {
+function setGeometryGLTF(icon, id, path, scale) {
 	icon.setAttribute('gltf-model', path);
 	icon.setAttribute('scale', '' + scale + ', ' + scale); // if you want for debugging
 	icon.setAttribute('look-at', '[gps-camera]');
@@ -173,15 +166,17 @@ function setGeometryGLTF(icon, id, path, scale, height) {
 
 
 /**
- * closes the Infopane
+ * closes the Infobox and changes the model of the element back to a tree.
  */
 function closeInfopane() {
 	let infopane = document.querySelector('[id^="infopane"]');
 	if(!infopane.classList.contains("closed")) {
 		infopane.classList.toggle("closed");
-		let entity_id = infopane.id.split(' ')[1];
+		// end the edit-mode of the infobox if necessary, by turning all textboxes back to uneditable divs
 		replaceTextareaWithContent();
+		let entity_id = infopane.id.split(' ')[1];
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
+		// change the gltf-model back to a tree
 		switch(icon.getAttribute('affected')) {
 			case 'yes':
 				setGeometryGLTF(icon, entity_id, 'assets/tree_red.gltf', 5);
@@ -201,7 +196,7 @@ function closeInfopane() {
 }
 
 /**
- * opens the infopane
+ * opens the infobox and changes the model of the element to a punctuation-mark.
  */
 function openInfopane() {
 	let infopane = document.querySelector('[id^="infopane"]');
@@ -209,6 +204,7 @@ function openInfopane() {
 		infopane.classList.toggle("closed");
 		let entity_id = infopane.id.split(' ')[1];
 		let icon = document.querySelector('[id$="' + entity_id +'"]');
+		// change the gltf-model to a punctuation-mark
 		switch(icon.getAttribute('affected')) {
 			case 'yes':
 				setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800, 2);
@@ -231,32 +227,44 @@ function openInfopane() {
  * fills the infopane with Information about the tree with the given id
  * @param id - id of the tree
  */
-function fillInfoPane(id) {
-	let infocontainer = document.getElementById("infocontainer");
+function fillInfoBox(id) {
+	// retrieve current tree from tree data
 	let currentTree = treeData.filter(tree => {
 		return tree.properties.full_id === id;
 	});
+
+	// fill the name
 	let name = currentTree[0].properties.name;
 	if(name === "")
 		name = "?";
 	document.getElementById("treeName").innerText = name;
+
+	// fill the description
 	let description = currentTree[0].properties.description;
 	if(description === "")
 		description = "no description available for this tree :(";
 	document.getElementById("treeDescription").innerText = description;
+
+	// fill the height
 	let height = currentTree[0].properties.height;
 	if(height === "")
 		height = "?";
 	document.getElementById("treeHeight").innerText = height;
+
+	// fill the genus
 	let genus = currentTree[0].properties.genus;
 	if(genus === "")
 		genus = "?";
 	document.getElementById("treeGenus").innerText = genus;
+
+	// fill the species
 	let species = currentTree[0].properties.species;
 	if(species === "") {
 		species = "?";
 	}
 	document.getElementById("treeSpecies").innerText = species;
+
+	// set the radio-buttons to the affected-status of the tree
 	let radioAffected = document.getElementById("red");
 	let radioMaybeAffected = document.getElementById("orange");
 	let radioNotAffected = document.getElementById("green");
@@ -283,6 +291,8 @@ function fillInfoPane(id) {
 			//TODO: Fehlermeldung
 			break;
 	}
+
+	// fill the image
 	let image = currentTree[0].properties.image;
 	if(image != "") {
 		let imageContainer = document.getElementById("images");
@@ -297,13 +307,15 @@ function fillInfoPane(id) {
 		imageDiv.id = "img";
 		imageContainer.prepend(imageDiv);
 	}
+
+	// reset the edit button
 	document.getElementById("editButton").setAttribute("onclick", "replaceContentWithTextareas('" + id + "')")
 }
 
 /**
  * open or close the content of a collapsible element.
- * @param idContent
- * @param idLabel
+ * @param idContent - id of the content of the collapsible
+ * @param idLabel - id of the label-element of the collapsible
  */
 function openCollapsible(idContent, idLabel) {
 	document.getElementById(idLabel).classList.toggle("active");
@@ -319,9 +331,9 @@ function openCollapsible(idContent, idLabel) {
  * This replaces the content of the infobox with textareas. It is used, when the edit mode is started.
  */
 function replaceContentWithTextareas() {
-	let treeId =  document.querySelector('[id^="infopane"]').getAttribute("id").split(' ')[1];
 	contentIds.forEach((id) => {
 		let viewableText = document.getElementById(id[0]);
+		// create an editable textarea
 		let editableText = document.createElement('textarea');
 		editableText.innerText = viewableText.innerText;
 		editableText.setAttribute("id", id[0]);
@@ -336,11 +348,11 @@ function replaceContentWithTextareas() {
 		viewableText.replaceWith(editableText);
 	});
 	let editButton = document.getElementById("editButton");
-	let editButtonImg = document.getElementById("editButtonImg");
 	if (editButton) {
 		editButton.setAttribute("onclick", "replaceTextareaWithContent()");
 		editButton.innerText = "Done";
 	}
+	let editButtonImg = document.getElementById("editButtonImg");
 	if (editButtonImg) {
 		editButtonImg.setAttribute("onclick", "replaceTextareaWithContent()");
 		editButtonImg.innerText = "Done";
@@ -348,24 +360,27 @@ function replaceContentWithTextareas() {
 }
 
 /**
- * This replaces the textarea of the infobox with normal divs. It is used, when the edit mode ends.
+ * This replaces the textareas of the infobox with normal divs. It is used when the edit mode ends.
  */
 function replaceTextareaWithContent() {
 	let treeId =  document.querySelector('[id^="infopane"]').getAttribute("id").split(' ')[1];
+	// for each of the editable elements of the infobox...
 	contentIds.forEach((id) => {
 		let editableText = document.getElementById(id[0]);
+		// check if element is currently a textarea
 		if (editableText.tagName === "TEXTAREA") {
+			// create div which is not editable
 			let viewableText = document.createElement('h');
 			viewableText.innerText = editableText.value;
+			// update tree-data with the value of the textarea
 			updateTreeData(treeId, id[1], editableText.value);
 			viewableText.setAttribute("id", id[0]);
 			let className = editableText.getAttribute("class");
 			viewableText.setAttribute("class", className);
 			if (className != null && className.includes("collapsibleContent")) {
-				//TODO:collapse/decollapse everything
+				//TODO:collapse or decollapse everything
 			}
 			viewableText.style.maxHeight = editableText.scrollHeight + "px";
-			//viewableText.style.width = editableText.scrollWidth + "px";
 			editableText.replaceWith(viewableText);
 		}
 	});
@@ -374,13 +389,18 @@ function replaceTextareaWithContent() {
 		editButton.setAttribute("onclick", "replaceContentWithTextareas()");
 		editButton.innerText = "Edit";
 	}
+	let editButtonImg = document.getElementById("editButtonImg");
+	if (editButtonImg) {
+		editButtonImg.setAttribute("onclick", "replaceTextareaWithContent()");
+		editButtonImg.innerText = "Edit";
+	}
 }
 
 /**
  * updates a value of a given key of a given tree
- * @param treeId
- * @param key
- * @param value
+ * @param treeId - id of the tree-data entry
+ * @param key - name of the attribute
+ * @param value - new value of the attribute
  */
 function updateTreeData(treeId, key, value) {
 	let currentTree = treeData.filter(tree => {
@@ -441,9 +461,9 @@ function getPosition() {
 
 /**
  * The infobox contains several possible contents which are grouped under one id.
- * This function hides content and makes different content visible.
- * @param oldId
- * @param newId
+ * This function hides one content and makes a different content visible.
+ * @param oldId - id of the previously displayed content
+ * @param newId - id of the new current content
  */
 function switchInfoboxContent(oldId, newId) {
 	if (oldId == "characteristics" || oldId == "images") {
@@ -454,27 +474,26 @@ function switchInfoboxContent(oldId, newId) {
 }
 
 /**
- *
+ * change the gltf-model, element-attribute and entry in the tree-data to the value of the radio-buttons
  */
 function changeAffectedStatus() {
 	let infopane = document.querySelector('[id^="infopane"]');
 	let entity_id = infopane.id.split(' ')[1];
 	let icon = document.querySelector('[id$="' + entity_id +'"]');
+	// affected
 	if(document.getElementById('red').checked) {
 		setGeometryGLTF(icon, entity_id, 'assets/exclamationmark/model.gltf', 800, 2);
 		icon.setAttribute('affected', "yes");
 		updateTreeData(entity_id, "affected", "yes");
-		console.log("This tree is affected.")
+		// possibly affected
 	} else if(document.getElementById('orange').checked) {
 		setGeometryGLTF(icon, entity_id, 'assets/questionmark/scene.gltf', 0.5, 2);
 		icon.setAttribute('affected', "maybe");
 		updateTreeData(entity_id, "affected", "maybe");
-		console.log("This Tree tree be affected.")
+		// healthy
 	} else if(document.getElementById("green").checked){
 		setGeometryGLTF(icon, entity_id, 'assets/sphere/scene.gltf', 8, 4);
 		icon.setAttribute('affected', "no");
 		updateTreeData(entity_id, "affected", "no");
-		console.log("This is not affected.It's healthy.")
-
 	}
 }
