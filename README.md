@@ -5,14 +5,14 @@ This Project informs about the current status of the oak processionary moth plag
 ---
 ### Features
 #### Trees
-The main feature of this web app are the trees. They are based on data from the tree cadastre of Münster but also hold information about the status of their infestaion with the processionary moth. The trees are visualized in AR as basic sketches, as seen in the table below.
+The main feature of this web app are the trees. They are based on data from the tree cadastre of Münster but also hold information about the status of their infestaion with the processionary moth. The trees are visualized in AR as basic sketches of trees and punctuation marks, as seen in the table below.
 
 || healthy tree       | possibly affected tree | affected tree |
 |:-----------:|:-------------:|:-------------:|:-----:|
 |primary model| <img src="https://user-images.githubusercontent.com/48286621/88565260-9c74d280-d034-11ea-8a74-f1c242f8f6d3.jpg" height="200"> | <img src="https://user-images.githubusercontent.com/48286621/88565267-9e3e9600-d034-11ea-9eb6-ce80cef82872.jpg" height="200"> | <img src="https://user-images.githubusercontent.com/48286621/88565272-9ed72c80-d034-11ea-9286-eab4362ea011.jpg" height="200"> |
 |secondary model| <img src="https://user-images.githubusercontent.com/48286621/88565255-9bdc3c00-d034-11ea-9f01-276ea57f0301.jpg" height="75">      | <img src="https://user-images.githubusercontent.com/48286621/88565269-9ed72c80-d034-11ea-9e22-7bd851b2ecaa.jpg" height="200">      |   <img src="https://user-images.githubusercontent.com/48286621/88565274-9ed72c80-d034-11ea-8aab-796d6a8d83e7.jpg" height="200"> |
 
-When you look at a tree it changes its visualization to the secondary model, an Infobox with information about the tree opens and the distance to the tree is displayed at the top of the screen.
+When you are not looking at a tree it is displayed as the primary model. Looking at a tree is defined as moving the black circle in the center of the scree over tree. When you look at a tree it changes its visualization to the secondary model, an Infobox with information about the tree opens and the distance to the tree is displayed at the top of the screen.
 
 #### Infobox
 <figure class="image">
